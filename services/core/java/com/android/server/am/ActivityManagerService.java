@@ -4231,6 +4231,7 @@ public final class ActivityManagerService extends ActivityManagerNative
 
     @Override
     public void setRequestedOrientation(IBinder token, int requestedOrientation) {
+    	/*
         synchronized (this) {
             ActivityRecord r = ActivityRecord.isInStackLocked(token);
             if (r == null) {
@@ -4248,6 +4249,7 @@ public final class ActivityManagerService extends ActivityManagerNative
             }
             Binder.restoreCallingIdentity(origId);
         }
+        */
     }
 
     @Override

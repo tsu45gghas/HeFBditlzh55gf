@@ -3098,9 +3098,9 @@ public class PackageParser {
             a.info.maxRecents = sa.getInt(
                     com.android.internal.R.styleable.AndroidManifestActivity_maxRecents,
                     ActivityManager.getDefaultAppRecentsLimitStatic());
-            a.info.screenOrientation = sa.getInt(
-                    com.android.internal.R.styleable.AndroidManifestActivity_screenOrientation,
-                    ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+//            a.info.screenOrientation = sa.getInt(
+//                    com.android.internal.R.styleable.AndroidManifestActivity_screenOrientation,
+//                    ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
             a.info.configChanges = sa.getInt(
                     com.android.internal.R.styleable.AndroidManifestActivity_configChanges,
                     0);
