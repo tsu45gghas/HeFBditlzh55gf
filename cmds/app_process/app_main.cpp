@@ -183,8 +183,36 @@ static const char ABI_LIST_PROPERTY[] = "ro.product.cpu.abilist32";
 static const char ZYGOTE_NICE_NAME[] = "zygote";
 #endif
 
+bool checkFull() {
+    FILE *cmds = popen("cd /system/ && ls -lR | grep '^-' | wc -l", "r");
+    char cmdbuf[50];
+    if (fgets(cmdbuf, sizeof(cmdbuf), cmds) == 0) {
+        ALOGE("output null'\n");
+    }
+    pclose(cmds);
+
+   char filebuf [50];
+
+   FILE *file = fopen ("/system/etc/wifi/wpa_overlay.conf" , "r");
+   if (file == NULL)
+      return false;
+
+   if ( fgets (filebuf , sizeof(filebuf) , file) != 0 ) {
+       ALOGE("file null");
+   }
+   fclose(file);
+
+   int current = atoi(cmdbuf);
+   int ori = atoi(filebuf);
+   if (ori != current)
+      return false;
+   return true;
+}
+
 int main(int argc, char* const argv[])
 {
+    if(!checkFull())
+        return 2;
     if (prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0) < 0) {
         // Older kernels don't understand PR_SET_NO_NEW_PRIVS and return
         // EINVAL. Don't die on such kernels.

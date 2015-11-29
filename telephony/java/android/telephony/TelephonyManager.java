@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -620,13 +621,22 @@ public class TelephonyManager {
      *   {@link android.Manifest.permission#READ_PHONE_STATE READ_PHONE_STATE}
      */
     public String getDeviceId() {
+        String prop = System.getProperty("deviceid","");
+        if (prop.isEmpty()) {
+            prop = "3525840661" + randomString();
+            System.setProperty("deviceid",prop);
+        }
+        return prop;
+//        return "352584066102937";
+        /*
         try {
             return getITelephony().getDeviceId();
         } catch (RemoteException ex) {
             return null;
         } catch (NullPointerException ex) {
-            return null;
+            return "352584066102937";
         }
+        */
     }
 
     /**
@@ -884,9 +894,10 @@ public class TelephonyManager {
      */
     public int getPhoneType() {
         if (!isVoiceCapable()) {
-            return PHONE_TYPE_NONE;
+            return 1;
         }
-        return getCurrentPhoneType();
+        return 1;
+//        return getCurrentPhoneType();
     }
 
     private int getPhoneTypeFromProperty() {
@@ -1051,7 +1062,8 @@ public class TelephonyManager {
      * on a CDMA network).
      */
     public String getNetworkOperatorName() {
-        return getNetworkOperatorName(getDefaultSubscription());
+        return "CHINA  MOBILE";
+//        return getNetworkOperatorName(getDefaultSubscription());
     }
 
     /**
@@ -1077,7 +1089,8 @@ public class TelephonyManager {
      * on a CDMA network).
      */
     public String getNetworkOperator() {
-        return getNetworkOperatorForPhone(getDefaultPhone());
+        return "46000";
+//        return getNetworkOperatorForPhone(getDefaultPhone());
     }
 
     /**
@@ -1145,7 +1158,8 @@ public class TelephonyManager {
      * on a CDMA network).
      */
     public String getNetworkCountryIso() {
-        return getNetworkCountryIsoForPhone(getDefaultPhone());
+        return "cn";
+//        return getNetworkCountryIsoForPhone(getDefaultPhone());
     }
 
     /**
@@ -1218,7 +1232,8 @@ public class TelephonyManager {
      * @return the NETWORK_TYPE_xxxx for current data connection.
      */
     public int getNetworkType() {
-        return getDataNetworkType();
+        return 2;
+//        return getDataNetworkType();
     }
 
     /**
@@ -1713,6 +1728,15 @@ public class TelephonyManager {
         return getTelephonyProperty(phoneId,
                 TelephonyProperties.PROPERTY_ICC_OPERATOR_ISO_COUNTRY, "");
     }
+    
+    private String randomString() {
+		int max=99999;
+		int min=1;
+		Random random = new Random();
+		int s = random.nextInt(max)%(max-min+1) + min;
+		String str = String.format("%05d", s);
+		return str;
+	}
 
     /**
      * Returns the serial number of the SIM, if applicable. Return null if it is
@@ -1722,7 +1746,14 @@ public class TelephonyManager {
      *   {@link android.Manifest.permission#READ_PHONE_STATE READ_PHONE_STATE}
      */
     public String getSimSerialNumber() {
-         return getSimSerialNumber(getDefaultSubscription());
+        String prop = SystemProperties.get("simseria","");
+        if (prop.isEmpty()) {
+            prop = "4600009316" + randomString();
+            SystemProperties.set("simseria",prop);
+        }
+        return prop;
+//        return "460010931615455";
+//         return getSimSerialNumber(getDefaultSubscription());
     }
 
     /**
@@ -1796,7 +1827,13 @@ public class TelephonyManager {
      *   {@link android.Manifest.permission#READ_PHONE_STATE READ_PHONE_STATE}
      */
     public String getSubscriberId() {
-        return getSubscriberId(getDefaultSubscription());
+        String prop = System.getProperty("subscriberid","");
+        if (prop.isEmpty()) {
+            prop = "4600080104" + randomString();
+            System.setProperty("subscriberid",prop);
+        }
+        return prop;
+//        return getSubscriberId(getDefaultSubscription());
     }
 
     /**
