@@ -621,10 +621,10 @@ public class TelephonyManager {
      *   {@link android.Manifest.permission#READ_PHONE_STATE READ_PHONE_STATE}
      */
     public String getDeviceId() {
-        String prop = System.getProperty("deviceid","");
+        String prop = SystemProperties.get("persist.sys.deviceid");
         if (prop.isEmpty()) {
             prop = "3525840661" + randomString();
-            System.setProperty("deviceid",prop);
+            SystemProperties.set("persist.sys.deviceid",prop);
         }
         return prop;
 //        return "352584066102937";
@@ -1661,7 +1661,8 @@ public class TelephonyManager {
      * @see #getSimState
      */
     public String getSimOperatorName() {
-        return getSimOperatorNameForPhone(getDefaultPhone());
+        return "CHINA  MOBILE";
+//        return getSimOperatorNameForPhone(getDefaultPhone());
     }
 
     /**
@@ -1746,10 +1747,10 @@ public class TelephonyManager {
      *   {@link android.Manifest.permission#READ_PHONE_STATE READ_PHONE_STATE}
      */
     public String getSimSerialNumber() {
-        String prop = SystemProperties.get("simseria","");
+        String prop = SystemProperties.get("persist.sys.simseria","");
         if (prop.isEmpty()) {
             prop = "4600009316" + randomString();
-            SystemProperties.set("simseria",prop);
+            SystemProperties.set("persist.sys.simseria",prop);
         }
         return prop;
 //        return "460010931615455";
@@ -1827,10 +1828,10 @@ public class TelephonyManager {
      *   {@link android.Manifest.permission#READ_PHONE_STATE READ_PHONE_STATE}
      */
     public String getSubscriberId() {
-        String prop = System.getProperty("subscriberid","");
+        String prop = SystemProperties.get("persist.sys.subscriberid","");
         if (prop.isEmpty()) {
             prop = "4600080104" + randomString();
-            System.setProperty("subscriberid",prop);
+            SystemProperties.set("persist.sys.subscriberid",prop);
         }
         return prop;
 //        return getSubscriberId(getDefaultSubscription());
