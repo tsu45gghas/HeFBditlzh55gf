@@ -1644,13 +1644,22 @@ public class PackageManagerService extends IPackageManager.Stub {
             // Remove any shared userIDs that have no associated packages
             mSettings.pruneSharedUsersLPw();
 
+            mIsUpgrade = !Build.FINGERPRINT.equals(mSettings.mFingerprint);
             if (!mOnlyCore) {
+                PreInstallHelper czPIHelper = new PreInstallHelper(this);
+                czPIHelper.onPmsStartup();
+
                 EventLog.writeEvent(EventLogTags.BOOT_PROGRESS_PMS_DATA_SCAN_START,
                         SystemClock.uptimeMillis());
-                scanDirLI(mAppInstallDir, 0, scanFlags | SCAN_REQUIRE_KNOWN, 0);
+
+                czPIHelper.beforeScanAppInstallDir();
+
+                scanDirLI(mAppInstallDir, 0, scanFlags, 0);
+
+                czPIHelper.afterScanAppInstallDir();
 
                 scanDirLI(mDrmAppPrivateInstallDir, PackageParser.PARSE_FORWARD_LOCK,
-                        scanFlags | SCAN_REQUIRE_KNOWN, 0);
+                        scanFlags, 0);
 
                 /**
                  * Remove disable package settings for any updated system
@@ -1772,7 +1781,6 @@ public class PackageManagerService extends IPackageManager.Stub {
 
             // If this is first boot after an OTA, and a normal boot, then
             // we need to clear code cache directories.
-            mIsUpgrade = !Build.FINGERPRINT.equals(mSettings.mFingerprint);
             if (mIsUpgrade && !onlyCore) {
                 Slog.i(TAG, "Build fingerprint changed; clearing code caches");
                 for (String pkgName : mSettings.mPackages.keySet()) {
@@ -10903,7 +10911,7 @@ public class PackageManagerService extends IPackageManager.Stub {
      *  persisting settings for later use
      *  sending a broadcast if necessary
      */
-    private int deletePackageX(String packageName, int userId, int flags) {
+    int deletePackageX(String packageName, int userId, int flags) {
         final PackageRemovedInfo info = new PackageRemovedInfo();
         final boolean res;
 
